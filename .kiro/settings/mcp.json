@@ -1,0 +1,85 @@
+{
+  "mcpServers": {
+    "Context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp",
+        "--api-key",
+        "ctx7sk-9435c84a-074b-43b4-b325-05524c1d61d1"
+      ],
+      "env": {},
+      "disabled": false,
+      "autoApprove": [
+        "get-library-docs",
+        "resolve-library-id"
+      ]
+    },
+    "shadcn": {
+      "command": "npx",
+      "args": [
+        "shadcn@latest",
+        "mcp"
+      ],
+      "disabled": true,
+      "autoApprove": [
+        "get_add_command_for_items",
+        "get_project_registries",
+        "search_items_in_registries",
+        "list_items_in_registries"
+      ]
+    },
+    "brave-search": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-brave-search"
+      ],
+      "env": {
+        "BRAVE_API_KEY": "BSAK4zjNPT42kw0EE6Iyb9Wp3SoYi1t"
+      },
+      "disabled": false,
+      "autoApprove": [
+        "brave_web_search"
+      ]
+    },
+    "exa": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "exa-mcp-server",
+        "--tools=web_search_exa"
+      ],
+      "env": {
+        "EXA_API_KEY": "f744492d-8e0d-439b-b179-1fcd8ba640fd"
+      },
+      "disabled": false,
+      "autoApprove": [
+        "get_code_context_exa",
+        "web_search_exa"
+      ]
+    },
+    "chrome-devtools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@latest"
+      ],
+      "disabled": false,
+      "autoApprove": [
+        "list_pages",
+        "navigate_page",
+        "list_console_messages",
+        "take_snapshot",
+        "list_network_requests",
+        "get_network_request",
+        "take_screenshot",
+        "new_page",
+        "click",
+        "wait_for",
+        "fill_form",
+        "get_console_message"
+      ]
+    }
+  }
+}
