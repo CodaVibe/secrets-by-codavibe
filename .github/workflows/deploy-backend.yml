@@ -2,7 +2,7 @@ name: Deploy Backend to Cloudflare Workers
 
 on:
   push:
-    branches: [main]
+    branches: [master]
     paths:
       - 'backend/**'
       - 'migrations/**'
