@@ -18,7 +18,7 @@ app.use('*', cors({
 }));
 
 // Health check
-app.get('/health', (c) => c.json({ status: 'ok' }));
+app.get('/health', (c) => c.json({ status: 'ok', version: '1.0.0' }));
 
 // API routes placeholder
 app.get('/api', (c) => c.json({ message: 'Secrets API v1' }));
