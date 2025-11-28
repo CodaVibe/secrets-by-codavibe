@@ -15,7 +15,6 @@ build/
 
 # Wrangler
 .wrangler/
-wrangler.toml
 
 # IDE
 .idea/

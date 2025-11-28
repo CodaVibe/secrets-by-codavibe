@@ -1,0 +1,16 @@
+name = "secrets-api"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+
+[observability]
+enabled = true
+
+[[d1_databases]]
+binding = "DB"
+database_name = "secrets-db"
+database_id = "908976b9-9518-4b5e-aaac-1e531a7bdb92"
+migrations_dir = "../migrations"
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "0e609c07c7264c35aec92b94eb0aae41"
