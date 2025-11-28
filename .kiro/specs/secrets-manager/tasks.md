@@ -208,7 +208,7 @@ wrangler secret list
 ---
 
 ### T1.5: Set Up GitHub Secrets
-- [ ] Complete task
+- [x] Complete task
 
 **Autonomous:** ✅ Yes
 
