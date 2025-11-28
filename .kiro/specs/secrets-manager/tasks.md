@@ -150,7 +150,7 @@ wrangler d1 migrations apply secrets-db --remote
 ---
 
 ### T1.3: Set Up Cloudflare KV Namespace
-- [ ] Complete task
+- [x] Complete task
 
 **Autonomous:** ✅ Yes
 
@@ -180,7 +180,7 @@ wrangler kv:namespace create RATE_LIMIT
 ---
 
 ### T1.4: Configure Cloudflare Secrets
-- [ ] Complete task
+- [x] Complete task
 
 **Autonomous:** ✅ Yes
 
