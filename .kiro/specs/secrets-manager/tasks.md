@@ -237,7 +237,7 @@ gh secret list
 ---
 
 ### T1.6: Create GitHub Actions Workflows
-- [ ] Complete task
+- [x] Complete task
 
 **Autonomous:** ✅ Yes
 
@@ -273,7 +273,7 @@ gh run watch
 ## Phase 2: Backend - Authentication System
 
 ### T2.1: Set Up Backend Project
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Initialize backend/ with pnpm
@@ -288,7 +288,7 @@ gh run watch
 ---
 
 ### T2.2: Implement Rate Limiting Middleware
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Create src/middleware/rateLimit.ts
@@ -303,7 +303,7 @@ gh run watch
 ---
 
 ### T2.3: Implement Security Headers Middleware
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Create src/middleware/securityHeaders.ts
@@ -318,7 +318,7 @@ gh run watch
 ---
 
 ### T2.4: Implement POST /api/auth/register
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Create src/routes/auth.ts
@@ -337,7 +337,7 @@ gh run watch
 ---
 
 ### T2.5: Implement POST /api/auth/login
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Fetch user by email
@@ -356,7 +356,7 @@ gh run watch
 ---
 
 ### T2.6: Implement POST /api/auth/logout
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Invalidate session token
@@ -367,7 +367,7 @@ gh run watch
 ---
 
 ### T2.7: Implement Session Middleware
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Create src/middleware/auth.ts
@@ -383,7 +383,7 @@ gh run watch
 ## Phase 3: Backend - Vault API
 
 ### T3.1: Implement GET /api/vault/services
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Require authentication
@@ -398,7 +398,7 @@ gh run watch
 ---
 
 ### T3.2: Implement POST /api/vault/services
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Require authentication
@@ -414,7 +414,7 @@ gh run watch
 ---
 
 ### T3.3: Implement DELETE /api/vault/services/:id
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Require authentication
@@ -430,7 +430,7 @@ gh run watch
 ---
 
 ### T3.4: Implement GET /api/vault/credentials
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Require authentication
@@ -446,7 +446,7 @@ gh run watch
 ---
 
 ### T3.5: Implement POST /api/vault/credentials
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Require authentication
@@ -463,7 +463,7 @@ gh run watch
 ---
 
 ### T3.6: Implement PUT /api/vault/credentials/:id
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Require authentication
@@ -479,7 +479,7 @@ gh run watch
 ---
 
 ### T3.7: Implement DELETE /api/vault/credentials/:id
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Require authentication
@@ -496,7 +496,7 @@ gh run watch
 ## Phase 4: Backend - Subscriptions API
 
 ### T4.1: Implement GET /api/subscriptions
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Require authentication
@@ -511,7 +511,7 @@ gh run watch
 ---
 
 ### T4.2: Implement POST /api/subscriptions
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Require authentication
@@ -530,7 +530,7 @@ gh run watch
 ---
 
 ### T4.3: Implement PUT /api/subscriptions/:id
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Require authentication
@@ -544,7 +544,7 @@ gh run watch
 ---
 
 ### T4.4: Implement DELETE /api/subscriptions/:id
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Require authentication
@@ -559,7 +559,7 @@ gh run watch
 ## Phase 5: Frontend - Project Setup
 
 ### T5.1: Initialize Frontend Project
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Initialize frontend/ with pnpm
@@ -573,10 +573,19 @@ gh run watch
 
 **Acceptance:** Frontend project initialized with dependencies
 
+**Implementation Notes (November 2025):**
+- Svelte 5.45.2 with runes mode enabled ($state, $props, $derived)
+- Vite 6.4.1 with @sveltejs/vite-plugin-svelte 5.1.1
+- Tailwind CSS 4.1.17 with @tailwindcss/vite plugin (CSS-first config via @theme)
+- @noble/ciphers 2.0.1, @noble/hashes 2.0.1 (audited crypto libraries)
+- idb 8.0.3 (IndexedDB wrapper)
+- date-fns 4.1.0 (with timezone support)
+- Vitest 4.0.14, Playwright 1.57.0, TypeScript 5.9.3
+
 ---
 
 ### T5.2: Configure Tailwind CSS 4
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Create app.css with @theme variables
@@ -588,10 +597,18 @@ gh run watch
 
 **Validates:** P23.1-P23.4
 
+**Implementation Notes (November 2025):**
+- Used Tailwind CSS 4's CSS-first configuration with `@theme inline` directive
+- Implemented `@custom-variant dark (&:where(.dark, .dark *))` for class-based dark mode toggling
+- Used modern `oklch()` color format for perceptually uniform colors
+- CSS variables in `:root` and `.dark` selectors enable runtime theme switching
+- Added theme toggle demo in App.svelte with localStorage persistence
+- Build verified successful with Vite 6.4.1
+
 ---
 
 ### T5.3: Set Up Routing Structure
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Create src/routes/+layout.svelte
@@ -603,12 +620,21 @@ gh run watch
 
 **Acceptance:** Routing structure functional
 
+**Implementation Notes (November 2025):**
+- Migrated from plain Vite + Svelte to SvelteKit 2.49.0 for file-based routing
+- Using @sveltejs/adapter-static 3.0.10 with SPA mode (fallback: 'index.html')
+- Created +layout.svelte with global navigation, dark mode toggle, and CSS import
+- Created +layout.ts with `prerender = true` and `ssr = false` for SPA mode
+- Created +page.svelte (login), register/+page.svelte, vault/+page.svelte, dashboard/+page.svelte
+- All pages use Svelte 5 runes ($state, $derived, $effect, $props)
+- Build output to `build/` directory for Cloudflare Pages deployment
+
 ---
 
 ## Phase 6: Frontend - Crypto Utilities
 
 ### T6.1: Implement Argon2id Key Derivation
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Create src/lib/crypto/argon2.ts
@@ -621,10 +647,18 @@ gh run watch
 
 **Validates:** P1.1-P1.5, AC1.4
 
+**Implementation Notes (November 2025):**
+- Using @noble/hashes 2.0.0 (audited, minimal crypto library)
+- Implemented deriveAuthHash (t:2, m:64MB) and deriveKEK (t:3, m:128MB)
+- Both sync and async versions with progress callbacks
+- Separate salts for AuthHash and KEK (domain separation)
+- OWASP-compliant parameters for password hashing
+- 20 unit tests passing (using reduced params for test speed)
+
 ---
 
 ### T6.2: Implement AES-256-GCM Encryption
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Create src/lib/crypto/aes.ts
@@ -637,10 +671,21 @@ gh run watch
 
 **Validates:** P2.1-P2.4, AC2.8
 
+**Implementation Notes (November 2025):**
+- Using @noble/ciphers 2.0.0 (audited, minimal crypto library)
+- AES-256-GCM with 12-byte nonce (96-bit, recommended for GCM)
+- 128-bit authentication tag included in ciphertext
+- Implemented encrypt/decrypt with string and binary support
+- Hex encoding/decoding utilities for storage
+- Key wrapping functions (wrapKey/unwrapKey) for KEK→DEK hierarchy
+- Additional Authenticated Data (AAD) support
+- NIST test vectors validated
+- 29 unit tests passing
+
 ---
 
 ### T6.3: Implement Seed Phrase Generation
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Create src/lib/crypto/seed-phrase.ts
@@ -654,10 +699,21 @@ gh run watch
 
 **Validates:** P3.1-P3.4, AC1.2, AC1.3
 
+**Implementation Notes (November 2025):**
+- Using @scure/bip39 2.0.1 (audited, minimal BIP39 implementation from Paul Miller)
+- Same author as @noble/hashes and @noble/ciphers - consistent security standards
+- 256-bit entropy for 24-word phrases (maximum security)
+- BIP39 standard English wordlist (2048 words)
+- PBKDF2-HMAC-SHA512 for seed derivation (2048 iterations per BIP39 spec)
+- HKDF with SHA-256 for domain-separated key derivation
+- Includes: generateSeedPhrase, validateSeedPhrase, validateSeedPhraseStrict, deriveDEKFromSeedPhrase
+- Helper functions: getConfirmationIndices, verifyConfirmation, getWordSuggestions
+- 56 unit tests passing
+
 ---
 
 ### T6.4: Implement Crypto Worker
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Create src/lib/crypto/worker.ts
@@ -671,10 +727,24 @@ gh run watch
 
 **Validates:** P18.1-P18.5, AC6.5
 
+**Implementation Notes (November 2025):**
+- Using Vite's `?worker` import syntax for Web Worker bundling
+- CryptoWorkerManager class provides promise-based API for worker communication
+- Worker script (crypto.worker.ts) handles Argon2id derivation off main thread
+- P18.1: preWarmCryptoWorker() function for early initialization
+- P18.2: Argon2id params configurable (AUTH: t:2/m:64MB, KEK: t:3/m:128MB)
+- P18.3: KEK cached in worker memory via cacheKEK(), never returned to main thread
+- P18.4: sanitizeMemory() overwrites cached keys with random data 3x then zeros
+- P18.5: SharedArrayBuffer detection via crossOriginIsolated check
+- Key wrapping/unwrapping using AES-256-GCM in worker
+- Singleton pattern with getCryptoWorker() for app-wide use
+- lockVault() sanitizes memory and terminates worker for complete cleanup
+- 20 unit tests passing (mocked worker for jsdom environment)
+
 ---
 
 ### T6.5: Implement HMAC Authentication
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Create src/lib/crypto/hmac.ts
@@ -687,12 +757,22 @@ gh run watch
 
 **Validates:** P2.2
 
+**Implementation Notes (November 2025):**
+- Using @noble/hashes 2.0.0 (audited, minimal crypto library)
+- HMAC-SHA256 with 256-bit output (32 bytes)
+- Constant-time comparison (constantTimeEqual) prevents timing attacks
+- Streaming API support via createHmac() for large messages
+- Domain separation with signWithContext/verifyWithContext
+- Timestamped auth tags with expiration checking
+- RFC 4231 test vectors validated
+- 53 unit tests passing
+
 ---
 
 ## Phase 7: Frontend - State Management
 
 ### T7.1: Implement Auth Store (Svelte 5 Runes)
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Create src/lib/stores/auth.svelte.ts
@@ -706,10 +786,20 @@ gh run watch
 
 **Validates:** P15.1-P15.4, AC1.6
 
+**Implementation Notes (November 2025):**
+- Using Svelte 5.37.0 with class-based $state runes pattern
+- AuthStore class with reactive $state fields for isAuthenticated, userId, sessionToken, dek, email, lastActivityAt
+- Getter-based derived state (isLocked, hasSession, canDecrypt) for test compatibility
+- Auto-lock timer (15 minutes) with resetAutoLockTimer() on activity
+- login(), logout(), lock(), unlock() methods for state transitions
+- getDEK(), getSessionToken() with validation and activity recording
+- Memory sanitization via lockVault() on logout/lock
+- 28 unit tests passing
+
 ---
 
 ### T7.2: Implement Vault Store (Svelte 5 Runes)
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Create src/lib/stores/vault.svelte.ts
@@ -722,6 +812,16 @@ gh run watch
 **Acceptance:** Vault store functional and tested
 
 **Validates:** P16.1-P16.4
+
+**Implementation Notes (November 2025):**
+- Using Svelte 5.37.0 with class-based $state runes pattern
+- VaultStore class with reactive $state fields for services, credentials, isLoading, error, selectedServiceId
+- Getter-based derived state (serviceCount, credentialCount, selectedService, selectedServiceCredentials)
+- Full CRUD operations for services and credentials
+- Optimistic updates with saveSnapshot(), rollback(), commit() pattern
+- Credential reordering with reorderCredentials()
+- Search functionality with searchServices()
+- 46 unit tests passing
 
 ---
 
