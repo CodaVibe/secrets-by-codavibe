@@ -81,7 +81,7 @@ Each task below has:
 ## Phase 1: Project Setup & Infrastructure
 
 ### T1.1: Initialize GitHub Repository
-- [x] Complete task
+- [ ] Complete task
 
 
 
@@ -826,7 +826,7 @@ gh run watch
 ---
 
 ### T7.3: Implement Subscriptions Store (Svelte 5 Runes)
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Create src/lib/stores/subscriptions.svelte.ts
@@ -839,12 +839,26 @@ gh run watch
 
 **Validates:** P17.1-P17.4, AC3.5, AC3.6, AC3.7
 
+**Implementation Notes (November 2025):**
+- Using Svelte 5.37.0 with class-based $state runes pattern
+- SubscriptionsStore class with reactive $state fields for subscriptions, isLoading, error
+- Getter-based derived state (subscriptionCount, totalMonthlySpending, totalYearlySpending, upcomingRenewals, subscriptionsByRenewal, trialSubscriptions, expiringTrials, monthlySpendingByCurrency)
+- P17.1: Monthly spending calculation (monthly: cost, yearly: cost/12, custom: cost/days*30)
+- P17.2: Yearly spending calculation (monthly: cost*12, yearly: cost, custom: cost/days*365)
+- P17.3: Upcoming renewals filter (next 30 days, sorted by date)
+- P17.4: Subscriptions sorted by next_renewal for calendar view
+- Full CRUD operations with optimistic updates (saveSnapshot, rollback, commit)
+- Search by service name, filter by billing cycle and currency
+- Trial subscription tracking with expiring trials detection (within 7 days)
+- Helper methods: getDaysUntilRenewal, getDaysUntilTrialEnds
+- 45 unit tests passing
+
 ---
 
 ## Phase 8: Frontend - IndexedDB
 
 ### T8.1: Implement IndexedDB Schema
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Create src/lib/db/indexeddb.ts
@@ -857,10 +871,26 @@ gh run watch
 
 **Validates:** P19.1-P19.4, AC5.1, AC5.4
 
+**Implementation Notes (November 2025):**
+- Using idb 8.0.3 (Jake Archibald's IndexedDB wrapper with Promise API)
+- Type-safe schema with DBSchema interface for compile-time checking
+- 4 object stores: services, credentials, subscriptions, metadata
+- Services store indexes: by-userId, by-updatedAt, by-pendingSync
+- Credentials store indexes: by-serviceId, by-updatedAt, by-pendingSync
+- Subscriptions store indexes: by-userId, by-nextRenewal, by-updatedAt, by-pendingSync
+- Metadata store: key-value for sync state (lastSyncedAt, userId, syncInProgress)
+- P19.1: Schema with proper indexes for efficient queries
+- P19.3: requestPersistentStorage() to prevent browser eviction
+- P19.4: getStorageQuota() for monitoring storage usage
+- Local-only fields (_pendingSync, _lastSyncedAt) for offline sync support
+- Utility functions: toService, toCredential, toSubscription strip local fields
+- fake-indexeddb for testing in Node.js environment
+- 34 unit tests passing
+
 ---
 
 ### T8.2: Implement IndexedDB CRUD Operations
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Implement saveService, getServices, deleteService
@@ -873,10 +903,20 @@ gh run watch
 
 **Validates:** AC5.2, AC5.5
 
+**Implementation Notes (November 2025):**
+- Created `frontend/src/lib/db/crud.ts` with full CRUD operations for all stores
+- Services: saveService, saveServices, getService, getServices, getAllServices, deleteService, softDeleteService
+- Credentials: saveCredential, saveCredentials, getCredential, getCredentials, getAllCredentials, deleteCredential, softDeleteCredential, deleteCredentialsByService
+- Subscriptions: saveSubscription, saveSubscriptions, getSubscription, getSubscriptions, getAllSubscriptions, deleteSubscription, softDeleteSubscription, getUpcomingRenewals
+- Batched cursor reads: getServicesBatched, getCredentialsBatched, getSubscriptionsBatched (default 20 items per batch)
+- Pending sync tracking: getServicesPendingSync, getCredentialsPendingSync, getSubscriptionsPendingSync, clearServicePendingSync, clearCredentialPendingSync, clearSubscriptionPendingSync
+- Bulk operations: getAllPendingSync, clearAllPendingSync, deleteServiceWithCredentials, loadVaultData, saveVaultData
+- 38 unit tests passing covering all CRUD operations, batched reads, edge cases, and bulk operations
+
 ---
 
 ### T8.3: Implement Sync Logic
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
 1. Track last_synced_at in metadata store
@@ -889,45 +929,87 @@ gh run watch
 
 **Validates:** AC5.3
 
+**Implementation Notes (November 2025):**
+- Created `frontend/src/lib/db/sync.ts` with full sync logic
+- Sync status management: getSyncStatus, subscribeSyncStatus, setSyncStatus (idle, syncing, error, offline)
+- Offline detection: isOnline(), setupOnlineListeners() for automatic status updates
+- Sync queue: getSyncQueue(), hasPendingChanges(), getPendingChangesCount()
+- Push sync: syncToServer() pushes pending changes, clears sync flags on success
+- Pull sync: syncFromServer() fetches updates, applies changes, handles deletions
+- Full sync: fullSync() performs bidirectional sync (push then pull)
+- Debounced sync: scheduleDebouncedSync(), cancelDebouncedSync() (2s default delay)
+- Helpers: getLastSyncedAt(), needsInitialSync(), resetSyncState(), forceUnlockSync()
+- SyncApiClient interface for server communication abstraction
+- Mock API client for testing: createMockApiClient() with offline/error simulation
+- Concurrent sync prevention via syncInProgress metadata flag
+- 33 unit tests passing covering all sync operations, offline handling, and edge cases
+
 ---
 
 ## Phase 9: Frontend - Authentication UI
 
 ### T9.1: Implement Registration Page
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
-1. Create register/+page.svelte
-2. Form: email, master password, confirm password
-3. Validate password strength (zxcvbn)
-4. Generate seed phrase on submit
-5. Display seed phrase (24 words, show once)
-6. Confirm seed phrase (enter 3 random words)
-7. Call API /api/auth/register
-8. Redirect to vault on success
+1. Create register/+page.svelte ✅
+2. Form: email, master password, confirm password ✅
+3. Validate password strength (zxcvbn) ✅
+4. Generate seed phrase on submit ✅
+5. Display seed phrase (24 words, show once) ✅
+6. Confirm seed phrase (enter 3 random words) ✅
+7. Call API /api/auth/register ✅
+8. Redirect to vault on success ✅
 
-**Acceptance:** Registration page functional
+**Acceptance:** Registration page functional ✅
 
 **Validates:** AC1.1, AC1.2, AC1.3
+
+**Implementation Notes (November 2025):**
+- Using @zxcvbn-ts/core 3.0.4 for password strength estimation (TypeScript rewrite, actively maintained)
+- ZxcvbnFactory with English and common dictionaries for accurate strength scoring
+- Real-time password strength feedback with score (0-4), label, crack time estimate, and suggestions
+- Minimum password score of 2 (Fair) required for registration
+- 24-word BIP39 seed phrase generation using @scure/bip39 2.0.1
+- Seed phrase confirmation requires entering 3 random words (cryptographically random selection)
+- Download seed phrase feature for user convenience
+- Full crypto workflow: generate DEK → derive AuthHash/KEK → wrap DEK with KEK → register
+- Base64 encoding for all binary data sent to backend (matches backend expectations)
+- Proper error handling with user-friendly messages
+- Auto-redirect to vault after successful registration with session stored in auth store
+- All 403 frontend tests passing
 
 ---
 
 ### T9.2: Implement Login Page
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
-1. Create +page.svelte (landing/login)
-2. Form: email, master password
-3. Derive AuthHash and KEK on submit
-4. Call API /api/auth/login
-5. Decrypt WrappedKey with KEK → DEK
-6. Store DEK in auth store
-7. Redirect to vault on success
-8. Show error on failure
+1. Create +page.svelte (landing/login) ✅
+2. Form: email, master password ✅
+3. Derive AuthHash and KEK on submit ✅
+4. Call API /api/auth/login ✅
+5. Decrypt WrappedKey with KEK → DEK ✅
+6. Store DEK in auth store ✅
+7. Redirect to vault on success ✅
+8. Show error on failure ✅
 
-**Acceptance:** Login page functional
+**Acceptance:** Login page functional ✅
 
 **Validates:** AC1.4
+
+**Implementation Notes (December 2025):**
+- Using Svelte 5.37.0 with runes ($state, $derived) for reactive state management
+- Added GET /api/auth/salts/:email endpoint to backend for fetching user salts before login
+- Salts are not secret and can be publicly accessible (security comes from password + salt)
+- Login flow: Fetch salts → Derive AuthHash/KEK → Send login request → Unwrap DEK → Store in auth
+- Progress indicator shows key derivation progress (Argon2id computation takes 300-500ms)
+- Proper error handling for account lockout (423 status), invalid credentials (401), and not found (404)
+- Auto-redirect to /vault after successful login
+- Links to /register and /recover for new users and account recovery
+- Fixed zxcvbn-ts/core v3.x API usage (zxcvbnOptions.setOptions instead of ZxcvbnFactory)
+- Converted base64 to hex properly for unwrapKeyFromHex (no Buffer dependency in browser)
+- All builds passing, ready for testing
 
 ---
 

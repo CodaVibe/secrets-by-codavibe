@@ -1,9 +1,9 @@
 {
   "mcpServers": {
     "Context7": {
-      "command": "npx",
+      "command": "pnpm",
       "args": [
-        "-y",
+        "dlx",
         "@upstash/context7-mcp",
         "--api-key",
         "ctx7sk-9435c84a-074b-43b4-b325-05524c1d61d1"
@@ -16,8 +16,9 @@
       ]
     },
     "shadcn": {
-      "command": "npx",
+      "command": "pnpm",
       "args": [
+        "dlx",
         "shadcn@latest",
         "mcp"
       ],
@@ -30,9 +31,9 @@
       ]
     },
     "brave-search": {
-      "command": "npx",
+      "command": "pnpm",
       "args": [
-        "-y",
+        "dlx",
         "@modelcontextprotocol/server-brave-search"
       ],
       "env": {
@@ -44,9 +45,9 @@
       ]
     },
     "exa": {
-      "command": "npx",
+      "command": "pnpm",
       "args": [
-        "-y",
+        "dlx",
         "exa-mcp-server",
         "--tools=web_search_exa"
       ],
@@ -60,9 +61,9 @@
       ]
     },
     "chrome-devtools": {
-      "command": "npx",
+      "command": "pnpm",
       "args": [
-        "-y",
+        "dlx",
         "chrome-devtools-mcp@latest"
       ],
       "disabled": false,

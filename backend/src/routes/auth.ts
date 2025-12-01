@@ -157,6 +157,48 @@ function validateRegisterRequest(body: unknown): { valid: true; data: RegisterRe
 // Create auth router
 const authRouter = new Hono<{ Bindings: Bindings }>();
 
+// GET /api/auth/salts/:email - Get user's salts for login
+authRouter.get('/salts/:email', async (c) => {
+  try {
+    const email = c.req.param('email');
+
+    if (!email || !isValidEmail(email)) {
+      return c.json<ErrorResponse>(
+        { error: 'Invalid email format', code: 'VALIDATION_ERROR' },
+        400
+      );
+    }
+
+    // Fetch user's salts by email
+    const user = await c.env.DB.prepare(`
+      SELECT auth_salt, kek_salt
+      FROM users WHERE email = ?
+    `).bind(email.toLowerCase()).first<{
+      auth_salt: string;
+      kek_salt: string;
+    }>();
+
+    if (!user) {
+      return c.json<ErrorResponse>(
+        { error: 'Account not found', code: 'USER_NOT_FOUND' },
+        404
+      );
+    }
+
+    return c.json({
+      authSalt: user.auth_salt,
+      kekSalt: user.kek_salt,
+    }, 200);
+
+  } catch (error) {
+    console.error('Fetch salts error:', error);
+    return c.json<ErrorResponse>(
+      { error: 'Internal server error', code: 'INTERNAL_ERROR' },
+      500
+    );
+  }
+});
+
 // POST /api/auth/register
 authRouter.post('/register', async (c) => {
   try {

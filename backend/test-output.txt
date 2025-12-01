@@ -1,0 +1,97 @@
+
+> secrets-backend@1.0.0 test /home/alonso-coda/Documents/Github/secrets-by-codavibe/backend
+> vitest run
+
+
+[1m[46m RUN [49m[22m [36mv4.0.14 [39m[90m/home/alonso-coda/Documents/Github/secrets-by-codavibe/backend[39m
+
+ [32m✓[39m src/middleware/securityHeaders.test.ts [2m([22m[2m20 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+[90mstderr[2m | src/middleware/rateLimit.test.ts[2m > [22m[2mrateLimitMiddleware[2m > [22m[2mshould continue if KV namespace not configured
+[22m[39mRATE_LIMIT KV namespace not configured
+
+[90mstderr[2m | src/middleware/auth.test.ts[2m > [22m[2msessionMiddleware[2m > [22m[2mError handling[2m > [22m[2mshould return 500 if KV namespace not configured
+[22m[39mKV namespace not configured for session storage
+
+ [32m✓[39m src/middleware/auth.test.ts [2m([22m[2m20 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+ [32m✓[39m src/middleware/rateLimit.test.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 24[2mms[22m[39m
+[90mstderr[2m | src/routes/auth.test.ts[2m > [22m[2mPOST /api/auth/register[2m > [22m[2mError handling[2m > [22m[2mshould handle database errors gracefully
+[22m[39mRegistration error: Error: Database connection failed
+    at [90m/home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39msrc/routes/auth.test.ts:306:38
+    at [90mfile:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/@vitest+runner@4.0.14/node_modules/[4m@vitest/runner[24m/dist/index.js:145:11
+    at [90mfile:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/@vitest+runner@4.0.14/node_modules/[4m@vitest/runner[24m/dist/index.js:919:26
+    at [90mfile:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/@vitest+runner@4.0.14/node_modules/[4m@vitest/runner[24m/dist/index.js:1244:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/@vitest+runner@4.0.14/node_modules/[4m@vitest/runner[24m/dist/index.js:1210:10[90m)[39m
+    at [90mfile:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/@vitest+runner@4.0.14/node_modules/[4m@vitest/runner[24m/dist/index.js:1654:37
+    at Traces.$ [90m(file:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/vitest@4.0.14/node_modules/[4mvitest[24m/dist/chunks/traces.U4xDYhzZ.js:115:27[90m)[39m
+    at trace [90m(file:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/vitest@4.0.14/node_modules/[4mvitest[24m/dist/chunks/test.DqQZzsWf.js:234:21[90m)[39m
+    at runTest [90m(file:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/@vitest+runner@4.0.14/node_modules/[4m@vitest/runner[24m/dist/index.js:1654:12[90m)[39m
+
+[90mstderr[2m | src/routes/auth.test.ts[2m > [22m[2mPOST /api/auth/register[2m > [22m[2mError handling[2m > [22m[2mshould handle race condition on duplicate email
+[22m[39mRegistration error: Error: UNIQUE constraint failed: users.email
+    at [90m/home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39msrc/routes/auth.test.ts:323:36
+    at [90mfile:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/@vitest+runner@4.0.14/node_modules/[4m@vitest/runner[24m/dist/index.js:145:11
+    at [90mfile:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/@vitest+runner@4.0.14/node_modules/[4m@vitest/runner[24m/dist/index.js:919:26
+    at [90mfile:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/@vitest+runner@4.0.14/node_modules/[4m@vitest/runner[24m/dist/index.js:1244:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/@vitest+runner@4.0.14/node_modules/[4m@vitest/runner[24m/dist/index.js:1210:10[90m)[39m
+    at [90mfile:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/@vitest+runner@4.0.14/node_modules/[4m@vitest/runner[24m/dist/index.js:1654:37
+    at Traces.$ [90m(file:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/vitest@4.0.14/node_modules/[4mvitest[24m/dist/chunks/traces.U4xDYhzZ.js:115:27[90m)[39m
+    at trace [90m(file:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/vitest@4.0.14/node_modules/[4mvitest[24m/dist/chunks/test.DqQZzsWf.js:234:21[90m)[39m
+    at runTest [90m(file:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/@vitest+runner@4.0.14/node_modules/[4m@vitest/runner[24m/dist/index.js:1654:12[90m)[39m
+
+[90mstderr[2m | src/routes/auth.test.ts[2m > [22m[2mPOST /api/auth/login[2m > [22m[2mError handling[2m > [22m[2mshould handle database errors gracefully
+[22m[39mLogin error: Error: Database connection failed
+    at [90m/home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39msrc/routes/auth.test.ts:555:38
+    at [90mfile:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/@vitest+runner@4.0.14/node_modules/[4m@vitest/runner[24m/dist/index.js:145:11
+    at [90mfile:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/@vitest+runner@4.0.14/node_modules/[4m@vitest/runner[24m/dist/index.js:919:26
+    at [90mfile:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/@vitest+runner@4.0.14/node_modules/[4m@vitest/runner[24m/dist/index.js:1244:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/@vitest+runner@4.0.14/node_modules/[4m@vitest/runner[24m/dist/index.js:1210:10[90m)[39m
+    at [90mfile:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/@vitest+runner@4.0.14/node_modules/[4m@vitest/runner[24m/dist/index.js:1654:37
+    at Traces.$ [90m(file:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/vitest@4.0.14/node_modules/[4mvitest[24m/dist/chunks/traces.U4xDYhzZ.js:115:27[90m)[39m
+    at trace [90m(file:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/vitest@4.0.14/node_modules/[4mvitest[24m/dist/chunks/test.DqQZzsWf.js:234:21[90m)[39m
+    at runTest [90m(file:///home/alonso-coda/Documents/Github/secrets-by-codavibe/backend/[39mnode_modules/[4m.pnpm[24m/@vitest+runner@4.0.14/node_modules/[4m@vitest/runner[24m/dist/index.js:1654:12[90m)[39m
+
+ [32m✓[39m src/routes/auth.test.ts [2m([22m[2m35 tests[22m[2m)[22m[32m 35[2mms[22m[39m
+[90mstderr[2m | src/routes/subscriptions.test.ts[2m > [22m[2mGET /api/subscriptions[2m > [22m[2mshould return 500 when database query fails
+[22m[39mDatabase query failed: Database error
+
+[90mstderr[2m | src/routes/vault.test.ts[2m > [22m[2mGET /api/vault/services[2m > [22m[2mshould return 500 when database query fails
+[22m[39mDatabase query failed: Database error
+
+[90mstderr[2m | src/routes/subscriptions.test.ts[2m > [22m[2mPOST /api/subscriptions[2m > [22m[2mshould return 500 when database insert fails
+[22m[39mDatabase insert failed: [90mundefined[39m
+
+[90mstderr[2m | src/routes/vault.test.ts[2m > [22m[2mPOST /api/vault/services[2m > [22m[2mshould return 500 when database insert fails
+[22m[39mDatabase insert failed: [90mundefined[39m
+
+[90mstderr[2m | src/routes/subscriptions.test.ts[2m > [22m[2mPUT /api/subscriptions/:id[2m > [22m[2mshould return 500 when database update fails
+[22m[39mDatabase update failed: [90mundefined[39m
+
+[90mstderr[2m | src/routes/vault.test.ts[2m > [22m[2mDELETE /api/vault/services/:id[2m > [22m[2mshould return 500 when database update fails
+[22m[39mFailed to delete service: [90mundefined[39m
+
+[90mstderr[2m | src/routes/subscriptions.test.ts[2m > [22m[2mDELETE /api/subscriptions/:id[2m > [22m[2mshould return 500 when database update fails
+[22m[39mFailed to delete subscription: [90mundefined[39m
+
+ [32m✓[39m src/routes/subscriptions.test.ts [2m([22m[2m34 tests[22m[2m)[22m[32m 36[2mms[22m[39m
+[90mstderr[2m | src/routes/vault.test.ts[2m > [22m[2mGET /api/vault/credentials[2m > [22m[2mshould return 500 when database query fails
+[22m[39mDatabase query failed: Database error
+
+[90mstderr[2m | src/routes/vault.test.ts[2m > [22m[2mPOST /api/vault/credentials[2m > [22m[2mshould return 500 when database insert fails
+[22m[39mDatabase insert failed: [90mundefined[39m
+
+[90mstderr[2m | src/routes/vault.test.ts[2m > [22m[2mPUT /api/vault/credentials/:id[2m > [22m[2mshould return 500 when database update fails
+[22m[39mDatabase update failed: [90mundefined[39m
+
+[90mstderr[2m | src/routes/vault.test.ts[2m > [22m[2mDELETE /api/vault/credentials/:id[2m > [22m[2mshould return 500 when database update fails
+[22m[39mFailed to delete credential: [90mundefined[39m
+
+ [32m✓[39m src/routes/vault.test.ts [2m([22m[2m80 tests[22m[2m)[22m[32m 56[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m6 passed[39m[22m[90m (6)[39m
+[2m      Tests [22m [1m[32m206 passed[39m[22m[90m (206)[39m
+[2m   Start at [22m 19:32:50
+[2m   Duration [22m 229ms[2m (transform 308ms, setup 0ms, import 526ms, tests 190ms, environment 0ms)[22m
+
