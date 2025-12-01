@@ -533,5 +533,152 @@ authRouter.post('/logout', async (c) => {
   }
 });
 
+// Types for account recovery
+interface RecoverRequest {
+  email: string;
+  authHash: string;
+  authSalt: string;
+  kekSalt: string;
+  wrappedKey: string;
+}
+
+interface RecoverResponse {
+  userId: string;
+  sessionToken: string;
+}
+
+function validateRecoverRequest(body: unknown): { valid: true; data: RecoverRequest } | { valid: false; error: string } {
+  if (!body || typeof body !== 'object') {
+    return { valid: false, error: 'Request body is required' };
+  }
+
+  const data = body as Record<string, unknown>;
+
+  // Validate email
+  if (!data.email || typeof data.email !== 'string') {
+    return { valid: false, error: 'Email is required' };
+  }
+  if (!isValidEmail(data.email)) {
+    return { valid: false, error: 'Invalid email format' };
+  }
+
+  // Validate authHash (base64 encoded)
+  if (!data.authHash || typeof data.authHash !== 'string') {
+    return { valid: false, error: 'AuthHash is required' };
+  }
+  if (!isValidBase64(data.authHash)) {
+    return { valid: false, error: 'AuthHash must be valid base64' };
+  }
+
+  // Validate authSalt (base64 encoded)
+  if (!data.authSalt || typeof data.authSalt !== 'string') {
+    return { valid: false, error: 'AuthSalt is required' };
+  }
+  if (!isValidBase64(data.authSalt)) {
+    return { valid: false, error: 'AuthSalt must be valid base64' };
+  }
+
+  // Validate kekSalt (base64 encoded)
+  if (!data.kekSalt || typeof data.kekSalt !== 'string') {
+    return { valid: false, error: 'KEKSalt is required' };
+  }
+  if (!isValidBase64(data.kekSalt)) {
+    return { valid: false, error: 'KEKSalt must be valid base64' };
+  }
+
+  // Validate wrappedKey (base64 encoded)
+  if (!data.wrappedKey || typeof data.wrappedKey !== 'string') {
+    return { valid: false, error: 'WrappedKey is required' };
+  }
+  if (!isValidBase64(data.wrappedKey)) {
+    return { valid: false, error: 'WrappedKey must be valid base64' };
+  }
+
+  return {
+    valid: true,
+    data: {
+      email: data.email as string,
+      authHash: data.authHash as string,
+      authSalt: data.authSalt as string,
+      kekSalt: data.kekSalt as string,
+      wrappedKey: data.wrappedKey as string,
+    },
+  };
+}
+
+// POST /api/auth/recover - Account recovery with seed phrase
+authRouter.post('/recover', async (c) => {
+  try {
+    // Parse and validate request body
+    const body = await c.req.json();
+    const validation = validateRecoverRequest(body);
+
+    if (!validation.valid) {
+      return c.json<ErrorResponse>(
+        { error: validation.error, code: 'VALIDATION_ERROR' },
+        400
+      );
+    }
+
+    const { email, authHash, authSalt, kekSalt, wrappedKey } = validation.data;
+    const normalizedEmail = email.toLowerCase();
+
+    // Fetch user by email
+    const user = await c.env.DB.prepare(`
+      SELECT id, email
+      FROM users WHERE email = ?
+    `).bind(normalizedEmail).first<{
+      id: string;
+      email: string;
+    }>();
+
+    if (!user) {
+      return c.json<ErrorResponse>(
+        { error: 'Account not found', code: 'USER_NOT_FOUND' },
+        404
+      );
+    }
+
+    // Create new AuthVerifier from new AuthHash
+    const authVerifier = await createAuthVerifier(authHash, c.env.PEPPER);
+
+    // Update user credentials with new password-derived values
+    const now = Math.floor(Date.now() / 1000);
+    await c.env.DB.prepare(`
+      UPDATE users 
+      SET auth_verifier = ?, auth_salt = ?, kek_salt = ?, wrapped_key = ?,
+          failed_login_attempts = 0, locked_until = NULL, updated_at = ?
+      WHERE id = ?
+    `).bind(
+      authVerifier,
+      authSalt,
+      kekSalt,
+      wrappedKey,
+      now,
+      user.id
+    ).run();
+
+    // Generate new session token
+    const sessionToken = await generateSessionToken();
+
+    // Store session in KV
+    if (c.env.RATE_LIMIT) {
+      await createSession(c.env.RATE_LIMIT, sessionToken, user.id);
+    }
+
+    return c.json<RecoverResponse>({
+      userId: user.id,
+      sessionToken,
+    }, 200);
+
+  } catch (error) {
+    console.error('Account recovery error:', error);
+    return c.json<ErrorResponse>(
+      { error: 'Internal server error', code: 'INTERNAL_ERROR' },
+      500
+    );
+  }
+});
+
 export { authRouter, constantTimeCompare };
-export type { RegisterRequest, RegisterResponse, LoginRequest, LoginResponse, LogoutResponse, ErrorResponse };
+export type { RegisterRequest, RegisterResponse, LoginRequest, LoginResponse, LogoutResponse, RecoverRequest, RecoverResponse, ErrorResponse };

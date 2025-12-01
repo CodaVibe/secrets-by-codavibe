@@ -1014,78 +1014,141 @@ gh run watch
 ---
 
 ### T9.3: Implement Account Recovery Page
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
-1. Create recover/+page.svelte
-2. Form: seed phrase (24 words)
-3. Validate seed phrase
-4. Derive DEK from seed phrase
-5. Prompt for new master password
-6. Re-encrypt DEK with new KEK
-7. Call API to update wrappedKey
-8. Redirect to vault on success
+1. Create recover/+page.svelte ✅
+2. Form: seed phrase (24 words) ✅
+3. Validate seed phrase ✅
+4. Derive DEK from seed phrase ✅
+5. Prompt for new master password ✅
+6. Re-encrypt DEK with new KEK ✅
+7. Call API to update wrappedKey ✅
+8. Redirect to vault on success ✅
 
-**Acceptance:** Account recovery page functional
+**Acceptance:** Account recovery page functional ✅
 
 **Validates:** AC1.5
+
+**Implementation Notes (December 2025):**
+- Using Svelte 5.37.0 with runes ($state, $derived) for reactive state management
+- Two-step recovery flow: seed phrase verification → new password setup
+- Seed phrase validation using @scure/bip39 2.0.1 (validateSeedPhrase)
+- DEK recovery via deriveDEKFromSeedPhrase (PBKDF2-HMAC-SHA512 + HKDF)
+- Password strength validation using @zxcvbn-ts/core 3.0.4 (minimum score 2)
+- Progress indicators for key derivation operations (Argon2id takes 300-500ms)
+- Backend endpoint POST /api/auth/recover updates auth_verifier, salts, and wrapped_key
+- Resets failed_login_attempts and locked_until on successful recovery
+- Auto-login after successful recovery with new session token
+- All sensitive data cleared from memory after recovery
+- Links to login page for users who remember their password
 
 ---
 
 ## Phase 10: Frontend - Vault UI
 
 ### T10.1: Implement Service List Component
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
-1. Create src/lib/components/ServiceList.svelte
-2. Display services from vault store
-3. Search by service name
-4. Click to view service details
-5. Add service button
-6. Delete service button (with confirmation)
+1. Create src/lib/components/ServiceList.svelte ✅
+2. Display services from vault store ✅
+3. Search by service name ✅
+4. Click to view service details ✅
+5. Add service button ✅
+6. Delete service button (with confirmation) ✅
 
-**Acceptance:** Service list component functional
+**Acceptance:** Service list component functional ✅
 
 **Validates:** AC2.1, AC2.6
+
+**Implementation Notes (December 2025):**
+- Using Svelte 5.37.0 with runes ($state, $derived, $props) for reactive state management
+- Component receives optional callbacks via props: onAddService, onSelectService
+- Local search state with $derived for filtered services based on search query
+- Integrated with vaultStore singleton for service data and selection state
+- Keyboard accessibility: Enter/Space keys for service selection (role="button", tabindex="0")
+- Service deletion with confirmation dialog (event.stopPropagation to prevent selection)
+- Empty states: different messages for no services vs no search results
+- Service icons: displays custom icon or generates placeholder with first letter
+- Shows credential count per service using vaultStore.getCredentialsForService()
+- CSS uses custom properties from app.css (--color-* variables) for theme consistency
+- Added missing CSS variables: --color-accent-primary-hover, --color-accent-primary-alpha, --color-text-tertiary
+- Fixed vitest config: added resolve.conditions: ['browser'] for Svelte 5 SSR compatibility
+- 4 unit tests passing: empty state, service count, multiple services, search filtering
+- svelte-check: 0 errors, 0 warnings
 
 ---
 
 ### T10.2: Implement Service Detail Component
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
-1. Create src/lib/components/ServiceDetail.svelte
-2. Display service name
-3. Display credentials list (ordered by display_order)
-4. Show credential type and label
-5. Hide credential values (••••••••)
-6. Click to reveal value (require master password if view-only mode)
-7. Copy to clipboard button (30s auto-clear)
-8. Add credential button
-9. Edit credential button
-10. Delete credential button
-11. Reorder credentials (drag-and-drop or up/down buttons)
+1. Create src/lib/components/ServiceDetail.svelte ✅
+2. Display service name ✅
+3. Display credentials list (ordered by display_order) ✅
+4. Show credential type and label ✅
+5. Hide credential values (••••••••) ✅
+6. Click to reveal value (require master password if view-only mode) ✅
+7. Copy to clipboard button (30s auto-clear) ✅
+8. Add credential button ✅
+9. Edit credential button ✅
+10. Delete credential button ✅
+11. Reorder credentials (drag-and-drop or up/down buttons) ✅
 
-**Acceptance:** Service detail component functional
+**Acceptance:** Service detail component functional ✅
 
 **Validates:** AC2.2, AC2.3, AC2.4, AC2.5, AC2.7, AC4.1-AC4.4
+
+**Implementation Notes (December 2025):**
+- Using Svelte 5.37.0 with runes ($state, $derived, $props, $effect) for reactive state management
+- Component receives serviceId prop and optional callbacks (onAddCredential, onEditCredential)
+- Integrated with vaultStore for service and credential data
+- Integrated with authStore for DEK access (decryption)
+- Credential value decryption using decryptFromHexToString from @noble/ciphers AES-256-GCM
+- Reveal/hide toggle for credential values with in-memory state tracking
+- Copy to clipboard using navigator.clipboard.writeText with 30s auto-clear timeout
+- Credential reordering with up/down buttons (calls vaultStore.reorderCredentials)
+- Credential type icons: username (👤), password (🔑), email (📧), totp (🔐), note (📝), custom (🏷️)
+- Delete confirmation dialog before removing credentials
+- Empty states: no credentials, service not found
+- Monospace font for credential values (Monaco, Courier New)
+- Keyboard accessibility: proper ARIA labels and button semantics
+- CSS uses custom properties from app.css for theme consistency
+- Cleanup effect for copy timeouts on component unmount
+- 14 unit tests passing: rendering, empty states, callbacks, button states, icons
 
 ---
 
 ### T10.3: Implement Add/Edit Credential Modal
-- [ ] Complete task
+- [x] Complete task
 
 **Steps:**
-1. Create src/lib/components/CredentialModal.svelte
-2. Form: type (dropdown), label, value
-3. Encrypt value with DEK on submit
-4. Call API to save credential
-5. Update vault store (optimistic)
+1. Create src/lib/components/CredentialModal.svelte ✅
+2. Form: type (dropdown), label, value ✅
+3. Encrypt value with DEK on submit ✅
+4. Call API to save credential ✅
+5. Update vault store (optimistic) ✅
 
-**Acceptance:** Add/edit credential modal functional
+**Acceptance:** Add/edit credential modal functional ✅
 
 **Validates:** AC2.3, AC2.4
+
+**Implementation Notes (December 2025):**
+- Using Svelte 5.37.0 with runes ($state, $derived, $props, $effect) for reactive state management
+- Modal component with isOpen prop for visibility control
+- Support for both Add and Edit modes (credentialId prop determines mode)
+- 6 credential types: username, password, email, totp, note, custom
+- Type-specific input handling: password type uses password input, note type uses textarea
+- AES-256-GCM encryption using @noble/ciphers before sending to API
+- Decryption of existing values when editing credentials
+- Optimistic updates with rollback on API failure
+- Proper form validation with required fields
+- Keyboard accessibility: Escape key closes modal
+- Backdrop click closes modal
+- Loading state with disabled inputs during API calls
+- Error display for failed operations
+- 17 unit tests passing
 
 ---
 
